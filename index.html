@@ -1,0 +1,37 @@
+<!DOCTYPE html><html><head><title>旋转立方体</title><meta charset="UTF-8"></head><body> <script type="module">
+      import * as THREE from "https://unpkg.com/three/build/three.module.js";
+
+      // Our Javascript will go here.
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      //const material = new MeshBasicMaterial({ color: 0x44aa88 })
+      const material = new THREE.MeshPhongMaterial({ color: 0x44aa88 });
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      //将光源添加到场景中，若场景中没有任何光源，则可反光材质的物体渲染出的结果是一片漆黑，什么也看不见
+      const light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(-1, 2, 4);
+      scene.add(light);
+
+      camera.position.z = 5;
+
+      function animate(ts) {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script> </body></html>
